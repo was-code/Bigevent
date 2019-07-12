@@ -65,6 +65,24 @@
         </div>
     </div>
 
+
+    <script src="./js/jquery-1.12.4.min.js"></script>
+    <!-- 当用户点击来之后  拉取用户的信息 -->
+    <script>
+        $(function() {
+            var fm=new FormData($('form')[0]);
+            $.get({
+                url: 'http://localhost:8000/admin/userinfo_get',
+                data:fm,
+                contentType:false,
+                processData:false,
+                success:function(res) {
+                    console.log(res);
+                }
+            });
+
+        });
+    </script>
 </body>
 
 </html>
