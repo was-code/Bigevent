@@ -166,8 +166,10 @@
 
             // 新增分类   
               $('.btnAddCate').on('click', function () {
-                  $('#addModal .modal-title').html('新增分类');
-                  $('#model_add').text('新增').removeClass('btn-success');
+                $('#addModal .modal-title').html('新增分类');
+                $('#model_add').text('新增').removeClass('btn-success');
+                $('#recipient-name').val('');
+                $('#recipient-slug').val('');
                   $('#model_add').on('click', function () {
                       var name = $('#recipient-name').val().trim();
                       var slug = $('#recipient-slug').val().trim();
@@ -252,6 +254,7 @@
                               }
 
                           });
+                          
                           $('#addModal').modal('hide');
                       };
                   });
