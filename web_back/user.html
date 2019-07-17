@@ -105,13 +105,13 @@
                     processData:false,
                     success: function (res) {
                         // console.log(res);
-                        if  (res.code==200) {
-                            if(confirm(res.msg+',是否回到主页')) {
-                                parent.location.href='./index.html';
-                            } 
-                        }else {
-                                alert(res.msg);
+                        if (res.code == 200) {
+                            if (confirm(res.msg + ',是否回到主页')) {
+                                parent.location.href = './index.html';
                             }
+                        } else {
+                            alert(res.msg);
+                        }
                     }
                 });
             });
