@@ -219,7 +219,7 @@
             <td class="text-center">{{v.state}}</td>
             <td class="text-center">
                 <a href="./article_edit.html" data-id="{{v.id}}" class="btn btn-default btn-xs">编辑</a>
-                <a href="#" data-id="{{v.id}}" class="btn btn-danger btn-xs">删除</a>
+                <a href="#" data-id="{{v.id}}" class="btn btn-danger btn-xs btn-delete">删除</a>
             </td>
         </tr>
         {{/each}}
@@ -280,14 +280,15 @@
                        if (backData.code==200) {
                             var temp=template('temp',backData);
                             $('tbody').html(temp);
+                            // 获取当前页 并把它暴露出去
+                            window.currentPage = $pagination.twbsPagination(
+                                'getCurrentPage'); //获取当前页
+                            
                             // 当筛选出不同的文章后 所对应的页码就会发送变化
                             var totalPages=backData.totalPage;
                             if (myTotalPage != totalPages) {//如果现在获取的新的页码数,不等于当前的总的页码数,那就要重绘.
                                 myTotalPage = totalPages; //把获取的新的总的页数,赋值给我们声明的变量(代表总页数)
                                 
-                                var currentPage = $pagination.twbsPagination(
-                                'getCurrentPage'); //获取当前页
-
                                 $pagination.twbsPagination('destroy');
                                 $pagination.twbsPagination($.extend({}, defaultOpts, {
                                     startPage: 1,
@@ -302,7 +303,28 @@
 
             $('#btnSearch').on('click',function(e) {
                 e.preventDefault();
+                $('.page-link').trigger('click');
                 GetList(1);
+            });
+
+            // 点击删除 触发事件
+            $('tbody').on('click', '.btn-delete', function () {
+                if (confirm('确定删除?')) {
+                    var id = $(this).attr('data-id');
+                    // console.log(id);
+                    var that = $(this);
+                    $.get({
+                        url: 'http://localhost:8000/admin/article_delete',
+                        data: { id: id },
+                        success: function (res) {
+                            // console.log(res);
+                            if (res.code == 200) {
+                                that.parents('tr').remove();
+                                GetList(currentPage);
+                            }
+                        }
+                    });
+                }
             });
 
         });
